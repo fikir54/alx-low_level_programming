@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+ * print_square - print a square in the terminal
+ * @size: size of square
+ *
+ * Return: void
+ */
 void print_square(int size)
 {
 	int linenum;
