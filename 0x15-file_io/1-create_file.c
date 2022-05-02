@@ -1,29 +1,43 @@
 #include "main.h"
-
+#include "file.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
 /**
- * create_file - Creates a file with a given content
- * @filename: The name of the file to create
- * @text_content: The content of the file
+ * create_file - function that creates a file.
+ * @filename: Filename
+ * @text_content: Text to add to the file.
  *
- * Return: 1 if successful, otherwise -1
+ * Return: 1 - Success or -1 - Failure.
  */
 int create_file(const char *filename, char *text_content)
 {
-	int fd, i;
+	int fd, bytes_wrote, len;
 
 	if (filename == NULL)
 		return (-1);
-	fd = open(filename, O_RDWR | O_TRUNC);
-	if (fd < 0)
-		fd = open(filename, O_WRONLY | O_CREAT, 0600);
-	if (fd >= 0)
+
+	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0600);
+
+	if (fd == -1)
+		return (-1);
+
+	if (text_content != NULL)
 	{
-		for (i = 0; text_content != NULL && *(text_content + i) != '\0'; i++)
+
+		for (len = 0; text_content[len] != '\0'; len++)
+			;
+
+		bytes_wrote = write(fd, text_content, len);
+
+		if (bytes_wrote == -1)
 		{
-			if (write(fd, text_content + i, 1) != 1)
-				return (-1);
+			write(STDOUT_FILENO, "fails", 6);
+			return (-1);
 		}
-		close(fd);
 	}
+	close(fd);
 	return (1);
 }
