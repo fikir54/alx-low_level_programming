@@ -1,3 +1,3 @@
 #!/bin/bash
-gcc *.o -fPIC -shared -o libruin.so
-LD_PRELOAD=$PWD/libruin.so
+wget -P /tmp https://github.com/fikir54/alx-low_level_programming/edit/master/0x18-dynamic_libraries/libdynamic.so
+export LD_PRELOAD=/tmp/libdaynamic.so
